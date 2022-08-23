@@ -4,7 +4,7 @@ from dictionary.word_frequency import WordFrequency
 # -------------------------------------------------
 # Base class for dictionary implementations. DON'T CHANGE THIS FILE.
 #
-# __author__ = 'Son Hoang Dau'
+# __author__ = 'Son Hoang Dau' --
 # __copyright__ = 'Copyright 2022, RMIT University'
 # -------------------------------------------------
 
