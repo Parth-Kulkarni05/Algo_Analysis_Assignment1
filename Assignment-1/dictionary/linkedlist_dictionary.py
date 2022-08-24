@@ -1,3 +1,10 @@
+from hashlib import new
+from locale import currency
+from math import fabs
+from os import curdir
+from re import T
+from tkinter import W
+from types import new_class
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
 
@@ -22,9 +29,9 @@ class ListNode:
 class LinkedListDictionary(BaseDictionary):
 
     def __init__(self):
+        self.head = None
+        self.length = 0
         # TO BE IMPLEMENTED
-        pass
-
 
     def build_dictionary(self, words_frequencies: [WordFrequency]):
         """
@@ -33,6 +40,25 @@ class LinkedListDictionary(BaseDictionary):
         """
         # TO BE IMPLEMENTED
 
+        prev = None
+
+        for i in words_frequencies:
+            new_node = WordFrequency(i.word, i.frequency)
+
+            if self.head is None:
+                self.head = new_node
+                self.length = self.length + 1
+                self.head.next = None
+
+            else:
+                cur_node = self.head
+
+                for i in range(self.length - 1):
+                    cur_node = cur_node.next
+                
+                cur_node.next = new_node
+                new_node.next = None
+                self.length = self.length + 1                                    
 
     def search(self, word: str) -> int:
         """
@@ -41,8 +67,17 @@ class LinkedListDictionary(BaseDictionary):
         @return: frequency > 0 if found and 0 if NOT found
         """
 
-        # TO BE IMPLEMENTED
+        cur_node = self.head
+
+        while cur_node is not None:
+            if cur_node.word == word:
+                return cur_node.frequency
+            
+            cur_node = cur_node.next
+
         return 0
+
+        # TO BE IMPLEMENTED
 
     def add_word_frequency(self, word_frequency: WordFrequency) -> bool:
         """
@@ -51,8 +86,26 @@ class LinkedListDictionary(BaseDictionary):
         :return: True whether succeeded, False when word is already in the dictionary
         """
 
+        cur_node = self.head
+        new_node = WordFrequency(word_frequency.word, word_frequency.frequency)
+
+        for i in range(self.length):
+
+            if cur_node.word == word_frequency.word:
+                return False
+            
+            elif cur_node.next is None:
+                cur_node.next = new_node
+                new_node.next = None
+
+                self.length = self.length + 1
+            
+            cur_node = cur_node.next 
+        
+        return True
+        
         # TO BE IMPLEMENTED
-        return False
+      
 
     def delete_word(self, word: str) -> bool:
         """
@@ -61,8 +114,34 @@ class LinkedListDictionary(BaseDictionary):
         @return: whether succeeded, e.g. return False when point not found
         """
 
-        # TO BE IMPLEMENTED
+        
+        cur_node = self.head
+        prev = None
+
+
+        while cur_node is not None:
+            if cur_node.word == word and cur_node == self.head:
+                self.m_head = cur_node.next
+                cur_node = None
+                return True
+            
+            elif cur_node.word == word:
+
+                prev.next = cur_node.next
+
+                cur_node = None
+
+                return True
+
+            prev = cur_node
+            cur_node = cur_node.next
+        
+
         return False
+        
+
+
+        # TO BE IMPLEMENTED
 
 
     def autocomplete(self, word: str) -> [WordFrequency]:
@@ -72,8 +151,39 @@ class LinkedListDictionary(BaseDictionary):
         @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'word'
         """
 
+        '''
+        
+        So iterate through the linked list find the biggest frequency value 
+
+        Then store the word of that frequency value 
+
+        Then iterate again but if it's that word ignore it 
+
+        Loop these 3 times and you got the biggest value.
+
+        
+        '''
+
+        list_of_words = []
+
+        cur_node = self.head
+
+        for i in range(self.length - 1):
+            if cur_node.word.startswith(word):
+                if len(list_of_words) == 0:
+                    list_of_words.append(cur_node)
+                else:
+                    for j in range(len(list_of_words)):
+                        if cur_node.frequency > list_of_words[j].frequency:
+                            list_of_words.insert(j, cur_node)
+                            break
+
+                        
+            cur_node = cur_node.next
+            
+
         # TO BE IMPLEMENTED
-        return []
+        return list_of_words[0:3]
 
 
 
