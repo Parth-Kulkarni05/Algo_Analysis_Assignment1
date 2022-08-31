@@ -1,4 +1,5 @@
 cute 10
+cup 30
 ant 20
 cut 30
 cuts 50

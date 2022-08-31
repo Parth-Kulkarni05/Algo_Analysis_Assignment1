@@ -1,10 +1,3 @@
-from hashlib import new
-from locale import currency
-from math import fabs
-from os import curdir
-from re import T
-from tkinter import W
-from types import new_class
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
 
