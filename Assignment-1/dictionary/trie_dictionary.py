@@ -1,6 +1,3 @@
-from ast import Delete
-from operator import le
-from re import L
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
 
@@ -129,54 +126,93 @@ class TrieDictionary(BaseDictionary):
         @return: whether succeeded, e.g. return False when point not found
         """
 
-
-        ## Just have to remove the word's end marker
-
-        cur_node = self.root
-        flag_prefix = None 
-        flag_suffix = None
-        flag_node = None
-        prev_node = None
-
         if self.search(word):
-            list_of_words = self.trie_explore_all_words(cur_node.children[word[0]], previous_letter= '', list_of_words= [])
-            list_of_words.remove(word)
-            
+
+            print(word)
+
+            cur_node = self.root
+            stack = []
+            list_of_words = self.trie_explore_all_words(cur_node.children[word[0]], previous_letter='', list_of_words=[]) ## Adds all the words that start with word[0]
+            list_of_prefixes = []
+
+            print(list_of_words)
+
             for i in list_of_words:
-                if str(i).startswith(word):
-                    print("word", word, "i", i)
-                    flag_prefix = True
-
-        else:
-            print("not detecting")
-
+                if i.startswith(word):
+                    list_of_prefixes.append(word)
         
-        if flag_prefix is not None:
-            for letter in word:
-                cur_node = cur_node.children[letter]
+
             
-            cur_node.is_last = False
+            ## If the word prefix list is more than one than just set the flag of that word to false or else really clean up the structure##
+
+            if len(list_of_prefixes) > 1:
+                for letter in word:
+                    cur_node = cur_node.children[letter]
+                
+                cur_node.is_last = False
+            
+            else:
+
+                cur_node = self.root
+
+                stack = []
+
+                for letter in word:
+                    cur_node = cur_node.children[letter]
+                    stack.append(cur_node)
+                
+
+                cur_node = self.root
+                            
+                
+                if len(stack) == len(word) and len(stack) >= len(list_of_words):  ## So this assumes that there is only word within the trie that has been added
+
+                    cur_node = self.root # Resets Cur_Node Position
+
+                    del cur_node.children[word[0]] ## Delete by the first word so, everything afterwards is gone.
+                    
+
+                else: # So this assumes that the letters in the word we are deleting is used by other words added to the trie
+
+                    # So start at the bottom, remove that last letter, come back up, and if that word is in the i of the list leave it. 
+                    
+                    reversed_stack = list(reversed(stack))
+
+                    for i in range(1, len(reversed_stack)): # -1 so it does not go to the root
+                        node = reversed_stack[i]
+
+                        if i == 1:
+                            for k in list(node.children.keys()):
+                                if word.endswith(k):
+                                    del node.children[k]
+                        
+                        else:
+                            if len(node.children) == 1:
+                                for k in list(node.children.keys()):
+                                    if len(node.children[k].children) == 1:
+                                        del node.children[k]
+        
 
             return True
+                
+                            
         
         else:
-            cur_node.children[word[0]] = None
-            del cur_node.children[word[0]]
 
-
-            return True
-        
-        return False
-
+            return False
+                
     
 
-    '''
+            ## There are two cases here. Now it will be where we can delete up to a certain word because other words are using the letter
+            ## We can check this by reffering to the is_last element
 
-    The below 3 functions are all related to the autocomplete feature
 
 
-    '''
-    
+            ## If all nodes only have one children it's safe to assume we can completely remove them, so this means if the length of the word 
+            # equals to the length of the list_of_words
+
+
+        ## Just have to remove the word's end marker    
 
 
     def trie_explore(self,cur_node, previous_letter = '', prefix = '', d_list = []) -> [WordFrequency]:

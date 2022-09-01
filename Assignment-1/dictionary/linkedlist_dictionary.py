@@ -1,3 +1,4 @@
+from locale import currency
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
 
@@ -46,12 +47,13 @@ class LinkedListDictionary(BaseDictionary):
             else:
                 cur_node = self.head
 
-                for i in range(self.length - 1):
+                while cur_node.next:
                     cur_node = cur_node.next
-                
+
                 cur_node.next = new_node
-                new_node.next = None
-                self.length = self.length + 1                                    
+                new_node.next = None     
+
+                self.length = self.length + 1                       
 
     def search(self, word: str) -> int:
         """
@@ -79,22 +81,12 @@ class LinkedListDictionary(BaseDictionary):
         :return: True whether succeeded, False when word is already in the dictionary
         """
 
-        cur_node = self.head
-        new_node = WordFrequency(word_frequency.word, word_frequency.frequency)
-
-        for i in range(self.length):
-
-            if cur_node.word == word_frequency.word:
+        curNode = self.head
+        while curNode.next:
+            if word_frequency.word == curNode.word:
                 return False
-            
-            elif cur_node.next is None:
-                cur_node.next = new_node
-                new_node.next = None
-
-                self.length = self.length + 1
-            
-            cur_node = cur_node.next 
-        
+            curNode = curNode.next
+        curNode.next = ListNode(word_frequency)
         return True
         
         # TO BE IMPLEMENTED
@@ -161,7 +153,7 @@ class LinkedListDictionary(BaseDictionary):
 
         cur_node = self.head
 
-        for i in range(self.length - 1):
+        while cur_node is not None:
             if cur_node.word.startswith(word):
                 if len(list_of_words) == 0:
                     list_of_words.append(cur_node)
