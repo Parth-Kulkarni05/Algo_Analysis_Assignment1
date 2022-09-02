@@ -1,5 +1,3 @@
-from array import array
-from operator import truediv
 from dictionary.word_frequency import WordFrequency
 from dictionary.base_dictionary import BaseDictionary
 import bisect
@@ -38,13 +36,10 @@ class ArrayDictionary(BaseDictionary):
                     temp = self.array[l]  
                     self.array[l] = self.array[l + 1]  
                     self.array[l + 1] = temp  
-        
-
 
         
-        
 
-        # TO BE IMPLEMENTED
+   # TO BE IMPLEMENTED
 
 
     def search(self, word: str) -> int:
@@ -56,9 +51,9 @@ class ArrayDictionary(BaseDictionary):
 
         for i in self.array:
             if i.word == word:
-                return True
+                return i.frequency
 
-        return False
+        return 0
 
 
 

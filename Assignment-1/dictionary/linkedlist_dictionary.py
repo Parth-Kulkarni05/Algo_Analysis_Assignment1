@@ -37,7 +37,7 @@ class LinkedListDictionary(BaseDictionary):
         prev = None
 
         for i in words_frequencies:
-            new_node = WordFrequency(i.word, i.frequency)
+            new_node = ListNode(i)
 
             if self.head is None:
                 self.head = new_node
@@ -65,8 +65,8 @@ class LinkedListDictionary(BaseDictionary):
         cur_node = self.head
 
         while cur_node is not None:
-            if cur_node.word == word:
-                return cur_node.frequency
+            if cur_node.word_frequency.word == word:
+                return cur_node.word_frequency.frequency
             
             cur_node = cur_node.next
 
@@ -83,10 +83,13 @@ class LinkedListDictionary(BaseDictionary):
 
         curNode = self.head
         while curNode.next:
-            if word_frequency.word == curNode.word:
+            if word_frequency.word == curNode.word_frequency.word:
                 return False
             curNode = curNode.next
         curNode.next = ListNode(word_frequency)
+
+        self.length = self.length + 1
+
         return True
         
         # TO BE IMPLEMENTED
@@ -103,18 +106,20 @@ class LinkedListDictionary(BaseDictionary):
         cur_node = self.head
         prev = None
 
-
         while cur_node is not None:
-            if cur_node.word == word and cur_node == self.head:
-                self.m_head = cur_node.next
+            if cur_node.word_frequency.word == word and cur_node == self.head:
+                self.head = cur_node.next
                 cur_node = None
+                self.length = self.length - 1
                 return True
             
-            elif cur_node.word == word:
+            elif cur_node.word_frequency.word == word:
 
                 prev.next = cur_node.next
 
                 cur_node = None
+
+                self.length = self.length - 1
 
                 return True
 
@@ -127,8 +132,20 @@ class LinkedListDictionary(BaseDictionary):
 
 
         # TO BE IMPLEMENTED
+    
 
+    def bubble_sort(self, list_of_words):
 
+        for k in range(0, len(list_of_words)):  
+            for l in range(0, len(list_of_words)-k-1):  
+                if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
+                    temp = list_of_words[l]  
+                    list_of_words[l] = list_of_words[l + 1]  
+                    list_of_words[l + 1] = temp  
+        
+
+        return list_of_words[0:3]
+    
     def autocomplete(self, word: str) -> [WordFrequency]:
         """
         return a list of 3 most-frequent words in the dictionary that have 'word' as a prefix
@@ -154,21 +171,18 @@ class LinkedListDictionary(BaseDictionary):
         cur_node = self.head
 
         while cur_node is not None:
-            if cur_node.word.startswith(word):
-                if len(list_of_words) == 0:
-                    list_of_words.append(cur_node)
-                else:
-                    for j in range(len(list_of_words)):
-                        if cur_node.frequency > list_of_words[j].frequency:
-                            list_of_words.insert(j, cur_node)
-                            break
-
+            if cur_node.word_frequency.word.startswith(word):
+                    list_of_words.append(cur_node.word_frequency)
+               
                         
             cur_node = cur_node.next
             
 
+            list_of_words_sorted = self.bubble_sort(list_of_words)
+
         # TO BE IMPLEMENTED
-        return list_of_words[0:3]
+        return list_of_words_sorted
+
 
 
 
