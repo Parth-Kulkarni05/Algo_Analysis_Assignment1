@@ -39,7 +39,6 @@ class LinkedListDictionary(BaseDictionary):
 
             if self.head is None:
                 self.head = new_node
-                self.length = self.length + 1
                 self.head.next = None
 
             else:
