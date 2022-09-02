@@ -1,4 +1,3 @@
-from locale import currency
 from dictionary.base_dictionary import BaseDictionary
 from dictionary.word_frequency import WordFrequency
 
@@ -24,7 +23,6 @@ class LinkedListDictionary(BaseDictionary):
 
     def __init__(self):
         self.head = None
-        self.length = 0
         # TO BE IMPLEMENTED
 
     def build_dictionary(self, words_frequencies: [WordFrequency]):
@@ -53,8 +51,6 @@ class LinkedListDictionary(BaseDictionary):
                 cur_node.next = new_node
                 new_node.next = None     
 
-                self.length = self.length + 1                       
-
     def search(self, word: str) -> int:
         """
         search for a word
@@ -80,17 +76,23 @@ class LinkedListDictionary(BaseDictionary):
         @param word_frequency: (word, frequency) to be added
         :return: True whether succeeded, False when word is already in the dictionary
         """
+        cur_node = self.head
+        new_node = ListNode(word_frequency)
 
-        curNode = self.head
-        while curNode.next:
-            if word_frequency.word == curNode.word_frequency.word:
+        while cur_node.next is not None:
+
+            if cur_node.word_frequency.word == word_frequency.word:
                 return False
-            curNode = curNode.next
-        curNode.next = ListNode(word_frequency)
+            
+            cur_node = cur_node.next
+            
 
-        self.length = self.length + 1
+        cur_node.next = new_node
+        new_node.next = None
 
+        
         return True
+        
         
         # TO BE IMPLEMENTED
       
@@ -110,7 +112,6 @@ class LinkedListDictionary(BaseDictionary):
             if cur_node.word_frequency.word == word and cur_node == self.head:
                 self.head = cur_node.next
                 cur_node = None
-                self.length = self.length - 1
                 return True
             
             elif cur_node.word_frequency.word == word:
@@ -118,8 +119,6 @@ class LinkedListDictionary(BaseDictionary):
                 prev.next = cur_node.next
 
                 cur_node = None
-
-                self.length = self.length - 1
 
                 return True
 
