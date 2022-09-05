@@ -6,6 +6,8 @@ from dictionary.linkedlist_dictionary import LinkedListDictionary
 from dictionary.trie_dictionary import TrieDictionary
 
 
+
+
 # -------------------------------------------------------------------
 # DON'T CHANGE THIS FILE.
 # This is the entry point to run the program in file-based mode.
@@ -76,13 +78,18 @@ if __name__ == '__main__':
             command_values = line.split()
             command = command_values[0]
             # search
+
+            
+
             if command == 'S':
+
                 word = command_values[1]
                 search_result = agent.search(word)
                 if search_result > 0:
                     output_file.write(f"Found '{word}' with frequency {search_result}\n")
                 else:
                     output_file.write(f"NOT Found '{word}'\n")
+        
 
             # add
             elif command == 'A':
@@ -104,12 +111,15 @@ if __name__ == '__main__':
 
             # check
             elif command == 'AC':
+
                 word = command_values[1]
                 list_words = agent.autocomplete(word)
                 line = "Autocomplete for '" + word + "': [ "
                 for item in list_words:
                     line = line + item.word + ": " + str(item.frequency) + "  "
                 output_file.write(line + ']\n')
+
+            
 
             else:
                 print('Unknown command.')

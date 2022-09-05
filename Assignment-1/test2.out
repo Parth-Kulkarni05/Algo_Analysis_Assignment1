@@ -17,7 +17,6 @@ Autocomplete for 'distilling': [ distilling: 1000  ]
 Delete 'distilling' succeeded
 Delete 'distilling' failed
 Autocomplete for 'distill': [ distill: 9691  ]
-Autocomplete for 'distilling': [ ]
 Add 'distribution' succeeded
 Delete 'distraction' succeeded
 Autocomplete for 'dist': [ distribution: 100000  distro: 13567  distrust: 10809  ]

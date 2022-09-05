@@ -37,7 +37,7 @@ class TrieDictionary(BaseDictionary):
         for word in words_frequencies:
             for letter in word.word:
                 if letter not in cur_node.children:
-                    cur_node.children[letter] = TrieNode(letter=letter)
+                    cur_node.children[letter] = TrieNode(letter=letter, frequency=None, is_last=False)
                 
                 cur_node = cur_node.children[letter]
 
@@ -135,11 +135,9 @@ class TrieDictionary(BaseDictionary):
             list_of_words = self.trie_explore_all_words(cur_node.children[word[0]], previous_letter='', list_of_words=[]) ## Adds all the words that start with word[0]
             list_of_prefixes = []
 
-            print(list_of_words)
-
             for i in list_of_words:
                 if i.startswith(word):
-                    list_of_prefixes.append(word)
+                    list_of_prefixes.append(i)
         
 
             
