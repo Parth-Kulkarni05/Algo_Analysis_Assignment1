@@ -4,7 +4,7 @@ import random
 import os
 from pathlib import Path
 
-p = Path(__file__).with_name('500output.txt')
+p = Path(__file__).with_name('100000output.txt')
 
 choices = ['S']
 
