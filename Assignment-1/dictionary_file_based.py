@@ -89,6 +89,9 @@ if __name__ == '__main__':
                     output_file.write(f"Found '{word}' with frequency {search_result}\n")
                 else:
                     output_file.write(f"NOT Found '{word}'\n")
+                
+                
+
         
 
             # add
@@ -127,6 +130,7 @@ if __name__ == '__main__':
 
         output_file.close()
         command_file.close()
+        outlog.close()
     except FileNotFoundError as e:
         print("Command file doesn't exist.")
         usage()

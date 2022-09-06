@@ -6,7 +6,7 @@ from pathlib import Path
 
 p = Path(__file__).with_name('500output.txt')
 
-choices = ['S', 'AC', 'D','A']
+choices = ['S']
 
 test_amount_to_generated = int(input())
 
@@ -32,6 +32,14 @@ with open(p,'r') as test_1_500, open(f'test10.in','w') as outfile, open('Assignm
                outfile.write(str(choice) + " " + i[0] + " " + i[1])
                outfile.write('\n')
           
+          elif choice == 'S' and selection == 1:
+               for k in not_in_list:
+                  outfile.write(str(choice) + " " + k[0])
+                  outfile.write('\n')
+                  random.shuffle(not_in_list)
+                  break
+
+     
           else:
                outfile.write(str(choice) + " " + i[0])
                outfile.write('\n')

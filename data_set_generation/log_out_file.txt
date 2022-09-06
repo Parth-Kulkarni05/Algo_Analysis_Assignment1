@@ -1,0 +1,5 @@
+execution time 950060 abandon
+execution time 1145168 abandoning
+execution time 1170309 abandoning
+execution time 364533 abroad
+execution time 1141594 distilling
