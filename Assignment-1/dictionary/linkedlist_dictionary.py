@@ -32,7 +32,7 @@ class LinkedListDictionary(BaseDictionary):
         """
         # TO BE IMPLEMENTED
 
-        prev = None
+        cur_node = None
 
         for i in words_frequencies:
             new_node = ListNode(i)
@@ -40,16 +40,14 @@ class LinkedListDictionary(BaseDictionary):
             if self.head is None:
                 self.head = new_node
                 self.head.next = None
-
-            else:
                 cur_node = self.head
 
-                while cur_node.next:
-                    cur_node = cur_node.next
-
+            else:
                 cur_node.next = new_node
                 new_node.next = None     
-
+                cur_node = cur_node.next
+        
+      
     def search(self, word: str) -> int:
         """
         search for a word
@@ -127,22 +125,6 @@ class LinkedListDictionary(BaseDictionary):
 
         return False
         
-
-
-        # TO BE IMPLEMENTED
-    
-
-    def bubble_sort(self, list_of_words):
-
-        for k in range(0, len(list_of_words)):  
-            for l in range(0, len(list_of_words)-k-1):  
-                if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
-                    temp = list_of_words[l]  
-                    list_of_words[l] = list_of_words[l + 1]  
-                    list_of_words[l + 1] = temp  
-        
-
-        return list_of_words[0:3]
     
     def autocomplete(self, word: str) -> [WordFrequency]:
         """
@@ -171,15 +153,21 @@ class LinkedListDictionary(BaseDictionary):
         while cur_node is not None:
             if cur_node.word_frequency.word.startswith(word):
                     list_of_words.append(cur_node.word_frequency)
+
+                    for k in range(0, len(list_of_words)):  
+                        for l in range(0, len(list_of_words)-k-1):  
+                            if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
+                                temp = list_of_words[l]  
+                                list_of_words[l] = list_of_words[l + 1]  
+                                list_of_words[l + 1] = temp  
                
                         
             cur_node = cur_node.next
             
 
-            list_of_words_sorted = self.bubble_sort(list_of_words)
 
         # TO BE IMPLEMENTED
-        return list_of_words_sorted
+        return list_of_words[0:3]
 
 
 

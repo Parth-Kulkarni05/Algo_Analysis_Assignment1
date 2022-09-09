@@ -74,6 +74,9 @@ if __name__ == '__main__':
         command_file = open(command_filename, 'r')
         output_file = open(output_filename, 'w')
 
+        with open("log_out_file.txt","w"):
+            pass                
+
         for line in command_file:
             command_values = line.split()
             command = command_values[0]
@@ -86,11 +89,12 @@ if __name__ == '__main__':
                     output_file.write(f"Found '{word}' with frequency {search_result}\n")
                 else:
                     output_file.write(f"NOT Found '{word}'\n")
-           
+                
                 stop = time.time_ns()
                 execution_time = stop - start
                 print("execution time" + " " + str(execution_time) + " " + word)
                 
+
                 with open("log_out_file.txt",'a') as f:
                       f.write("execution time" + " " + str(execution_time) + " " + word) 
                       f.write('\n')

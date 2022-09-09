@@ -26,19 +26,11 @@ class ArrayDictionary(BaseDictionary):
 
         for i in words_frequencies:
             self.array.append(WordFrequency(i.word, i.frequency))
-
-        word_index = 0    
-
-        
-        for k in range(0, len(self.array)):  
-            for l in range(0, len(self.array)-k-1):  
-                if (self.array[l].word > self.array[l + 1].word):  
-                    temp = self.array[l]  
-                    self.array[l] = self.array[l + 1]  
-                    self.array[l + 1] = temp  
-
         
 
+        self.array.sort(key=lambda i: i.word)
+    
+    
    # TO BE IMPLEMENTED
 
 
@@ -49,13 +41,23 @@ class ArrayDictionary(BaseDictionary):
         @return: frequency > 0 if found and 0 if NOT found
         """
 
-        for i in self.array:
-            if i.word == word:
-                return i.frequency
+        low_point = 0 
+        high_point = len(self.array)
+        mid_point = 0
+
+        while low_point <= high_point:
+            mid_point = (high_point + low_point) // 2
+
+            if self.array[mid_point].word < word:
+                low_point  = mid_point + 1
+            
+            elif self.array[mid_point].word > word:
+                high_point = mid_point - 1
+            
+            else:
+                return self.array[mid_point].frequency
 
         return 0
-
-
 
         # TO BE IMPLEMENTED
 
@@ -67,15 +69,42 @@ class ArrayDictionary(BaseDictionary):
         """
         # TO BE IMPLEMENTED
 
-        for i in range(len(self.array)):
-            if self.array[i].word == word_frequency.word:
-                return False 
-            
-            elif word_frequency.word < self.array[i].word:
-                self.array.insert(i,WordFrequency(word_frequency.word, word_frequency.frequency))
-                break
+        if not self.search(word_frequency.word): # Word is not present in the dictionary
+              for i in range(len(self.array)):
+                if word_frequency.word < self.array[i].word:
+                    self.array.insert(i,WordFrequency(word_frequency.word, word_frequency.frequency))
+                    break 
+        
+        else:
+            return False # Word is already in the dictionary
+          
         
         return True
+    
+
+
+    def find_index(self,word):
+        
+        low_point = 0 
+        high_point = len(self.array)
+        mid_point = 0
+
+        while low_point <= high_point:
+            mid_point = (high_point + low_point) // 2
+
+            if self.array[mid_point].word < word:
+                low_point  = mid_point + 1
+            
+            elif self.array[mid_point].word > word:
+                high_point = mid_point - 1
+            
+            else:
+                return mid_point
+
+        return 0
+
+
+
         
 
     def delete_word(self, word: str) -> bool:
@@ -87,13 +116,17 @@ class ArrayDictionary(BaseDictionary):
         # find the position of 'word' in the list, if exists, will be at idx-1
         # TO BE IMPLEMENTED
 
-        for i in range(len(self.array)):
-            if self.array[i].word == word:
-                self.array.remove(self.array[i])
-                return True
+        idx = self.find_index(word)
 
-        return False
-            
+        if idx == 0:
+            return False
+        
+        else:
+            self.array.pop(idx)
+
+        
+        return True
+        
 
     def autocomplete(self, prefix_word: str) -> [WordFrequency]:
         """
@@ -107,13 +140,13 @@ class ArrayDictionary(BaseDictionary):
         for i in range(len(self.array)):
             if self.array[i].word.startswith(prefix_word):
                 list_of_words.append(self.array[i])
-        
-        for k in range(0, len(list_of_words)):  
-            for l in range(0, len(list_of_words)-k-1):  
-                if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
-                    temp = list_of_words[l]  
-                    list_of_words[l] = list_of_words[l + 1]  
-                    list_of_words[l + 1] = temp  
+                
+                for k in range(0, len(list_of_words)):  
+                    for l in range(0, len(list_of_words)-k-1):  
+                        if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
+                            temp = list_of_words[l]  
+                            list_of_words[l] = list_of_words[l + 1]  
+                            list_of_words[l + 1] = temp  
         
         list_of_words = list_of_words[0:3]
     
