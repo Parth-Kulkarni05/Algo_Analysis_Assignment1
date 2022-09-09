@@ -10,6 +10,8 @@ with open('Assignment-1\sampleData200k.txt') as dataPoint, open (f'data_set_gene
 
     word_list = word_list[0: n_lines_to_be_generated]
 
+    
+
     for i in word_list:
        outfile.write(i[0] + " " + i[1])
        outfile.write('\n')
