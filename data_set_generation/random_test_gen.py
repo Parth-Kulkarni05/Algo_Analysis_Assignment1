@@ -23,7 +23,7 @@ with open(p,'r') as test_1_500, open(f'test10.in','w') as outfile, open('Assignm
 
           if choice == 'S' and selection == 1 and count <= 3:
                for k in not_in_list:
-                  outfile.write(str(choice) + " " + k[0] + " " + k[1])
+                  outfile.write(str(choice) + " " + k[0] + " ")
                   outfile.write('\n')
                   random.shuffle(not_in_list)
                   break
@@ -31,5 +31,5 @@ with open(p,'r') as test_1_500, open(f'test10.in','w') as outfile, open('Assignm
      
           else:
                idx = random.randint(0,len(word_list))
-               outfile.write(str(choice) + " " + word_list[idx][0] + " " + word_list[idx][1])
+               outfile.write(str(choice) + " " + word_list[idx][0] + " ")
                outfile.write('\n')

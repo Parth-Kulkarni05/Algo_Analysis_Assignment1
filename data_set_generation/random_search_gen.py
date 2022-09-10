@@ -2,7 +2,7 @@ import random
 import os
 from pathlib import Path
 
-p = Path(__file__).with_name('30000output.txt')
+p = Path(__file__).with_name('100000output.txt')
 
 choices = ['A']
 
@@ -21,12 +21,18 @@ with open(p,'r') as test_1_500, open(f'test10.in','w') as outfile, open('Assignm
           selection = 1
           choice = random.choice(choices)
 
-          if choice == 'A' and selection == 1 and count <= 3:
-               for k in not_in_list:
-                  outfile.write(str(choice) + " " + k[0] + " " + k[1])
-                  outfile.write('\n')
-                  random.shuffle(not_in_list)
-                  break
+          if choice == 'A' and selection == 1 and count <= 10:
+               for k in range(len(not_in_list)):
+                    if word_list[k][0] != not_in_list[k][0]:
+                              outfile.write(str(choice) + " " + not_in_list[k][0] + " " + not_in_list[k][1])
+                              outfile.write('\n')
+                              random.shuffle(not_in_list)
+                              break
+
+                    else: # So its equal then do the following
+                              random.shuffle(word_list)
+                              continue
+
 
      
           else:

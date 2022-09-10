@@ -4,7 +4,6 @@ from dictionary.base_dictionary import BaseDictionary
 from dictionary.array_dictionary import ArrayDictionary
 from dictionary.linkedlist_dictionary import LinkedListDictionary
 from dictionary.trie_dictionary import TrieDictionary
-import time
 
 
 # -------------------------------------------------------------------
@@ -68,14 +67,10 @@ if __name__ == '__main__':
 
     command_filename = args[3]
     output_filename = args[4]
-
     # Parse the commands in command file
     try:
         command_file = open(command_filename, 'r')
         output_file = open(output_filename, 'w')
-
-        with open("log_out_file.txt","w"):
-            pass                
 
         for line in command_file:
             command_values = line.split()
@@ -83,25 +78,45 @@ if __name__ == '__main__':
             # search
             if command == 'S':
                 word = command_values[1]
-                start = time.time_ns()
                 search_result = agent.search(word)
                 if search_result > 0:
                     output_file.write(f"Found '{word}' with frequency {search_result}\n")
                 else:
                     output_file.write(f"NOT Found '{word}'\n")
-                
-                stop = time.time_ns()
-                execution_time = stop - start
-                print("execution time" + " " + str(execution_time) + " " + word)
-                
 
-                with open("log_out_file.txt",'a') as f:
-                      f.write("execution time" + " " + str(execution_time) + " " + word) 
-                      f.write('\n')
-        
+            # add
+            elif command == 'A':
+                word = command_values[1]
+                frequency = int(command_values[2])
+                word_frequency = WordFrequency(word, frequency)
+                if not agent.add_word_frequency(word_frequency):
+                    output_file.write(f"Add '{word}' failed\n")
+                else:
+                    output_file.write(f"Add '{word}' succeeded\n")
+
+            # delete
+            elif command == 'D':
+                word = command_values[1]
+                if not agent.delete_word(word):
+                    output_file.write(f"Delete '{word}' failed\n")
+                else:
+                    output_file.write(f"Delete '{word}' succeeded\n")
+
+            # check
+            elif command == 'AC':
+                word = command_values[1]
+                list_words = agent.autocomplete(word)
+                line = "Autocomplete for '" + word + "': [ "
+                for item in list_words:
+                    line = line + item.word + ": " + str(item.frequency) + "  "
+                output_file.write(line + ']\n')
+
+            else:
+                print('Unknown command.')
+                print(line)
+
         output_file.close()
         command_file.close()
-       
     except FileNotFoundError as e:
         print("Command file doesn't exist.")
         usage()

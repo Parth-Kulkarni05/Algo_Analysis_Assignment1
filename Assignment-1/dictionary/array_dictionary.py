@@ -41,22 +41,10 @@ class ArrayDictionary(BaseDictionary):
         @return: frequency > 0 if found and 0 if NOT found
         """
 
-        low_point = 0 
-        high_point = len(self.array)
-        mid_point = 0
-
-        while low_point <= high_point:
-            mid_point = (high_point + low_point) // 2
-
-            if self.array[mid_point].word < word:
-                low_point  = mid_point + 1
-            
-            elif self.array[mid_point].word > word:
-                high_point = mid_point - 1
-            
-            else:
-                return self.array[mid_point].frequency
-
+        for i in self.array:
+            if i.word == word:
+                return i.frequency
+        
         return 0
 
         # TO BE IMPLEMENTED
@@ -116,17 +104,13 @@ class ArrayDictionary(BaseDictionary):
         # find the position of 'word' in the list, if exists, will be at idx-1
         # TO BE IMPLEMENTED
 
-        idx = self.find_index(word)
+        for i in self.array:
+            if i.word == word:
+                self.array.remove(i)
+                return True
+        
+        return False
 
-        if idx == 0:
-            return False
-        
-        else:
-            self.array.pop(idx)
-
-        
-        return True
-        
 
     def autocomplete(self, prefix_word: str) -> [WordFrequency]:
         """
