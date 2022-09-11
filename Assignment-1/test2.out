@@ -10,13 +10,3 @@ NOT Found 'abroad'
 Autocomplete for 'ab': [ abandoning: 1000000  abundant: 113356  aboard: 95217  ]
 Add 'abroad' succeeded
 Autocomplete for 'ab': [ abandoning: 1000000  abroad: 331441  abundant: 113356  ]
-Autocomplete for 'distill': [ distill: 9691  ]
-NOT Found 'distilling'
-Add 'distilling' succeeded
-Autocomplete for 'distilling': [ distilling: 1000  ]
-Delete 'distilling' succeeded
-Delete 'distilling' failed
-Autocomplete for 'distill': [ distill: 9691  ]
-Add 'distribution' succeeded
-Delete 'distraction' succeeded
-Autocomplete for 'dist': [ distribution: 100000  distro: 13567  distrust: 10809  ]

@@ -153,16 +153,17 @@ class LinkedListDictionary(BaseDictionary):
         while cur_node is not None:
             if cur_node.word_frequency.word.startswith(word):
                     list_of_words.append(cur_node.word_frequency)
-
-                    for k in range(0, len(list_of_words)):  
-                        for l in range(0, len(list_of_words)-k-1):  
-                            if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
-                                temp = list_of_words[l]  
-                                list_of_words[l] = list_of_words[l + 1]  
-                                list_of_words[l + 1] = temp  
-               
                         
             cur_node = cur_node.next
+        
+
+        for k in range(0, len(list_of_words)):  
+            for l in range(0, len(list_of_words)-k-1):  
+                if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
+                    temp = list_of_words[l]  
+                    list_of_words[l] = list_of_words[l + 1]  
+                    list_of_words[l + 1] = temp  
+               
             
 
 

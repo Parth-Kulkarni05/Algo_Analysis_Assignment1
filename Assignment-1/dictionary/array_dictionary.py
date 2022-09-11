@@ -124,13 +124,14 @@ class ArrayDictionary(BaseDictionary):
         for i in range(len(self.array)):
             if self.array[i].word.startswith(prefix_word):
                 list_of_words.append(self.array[i])
-                
-                for k in range(0, len(list_of_words)):  
-                    for l in range(0, len(list_of_words)-k-1):  
-                        if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
-                            temp = list_of_words[l]  
-                            list_of_words[l] = list_of_words[l + 1]  
-                            list_of_words[l + 1] = temp  
+        
+    
+        for k in range(0, len(list_of_words)):  
+            for l in range(0, len(list_of_words)-k-1):  
+                if (list_of_words[l].frequency < list_of_words[l + 1].frequency):  
+                    temp = list_of_words[l]  
+                    list_of_words[l] = list_of_words[l + 1]  
+                    list_of_words[l + 1] = temp  
         
         list_of_words = list_of_words[0:3]
     

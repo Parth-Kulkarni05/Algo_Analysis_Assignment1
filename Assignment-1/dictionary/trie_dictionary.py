@@ -212,49 +212,39 @@ class TrieDictionary(BaseDictionary):
 
         ## Just have to remove the word's end marker    
 
+    def find_prefix(self, cur_node, previous_letter, d_list, prefix):
 
-    def trie_explore(self,cur_node, previous_letter = '', prefix = '', d_list = []) -> [WordFrequency]:
+        if cur_node.is_last == True:
+            d_list.append(WordFrequency(prefix[0:-1] + previous_letter + cur_node.letter, cur_node.frequency))
 
-        if cur_node.is_last: # This is the base case
-            word = previous_letter + cur_node.letter
-
-            if word.startswith(prefix):
-                d_list.append(WordFrequency(word, cur_node.frequency))
-                
-        if len(cur_node.children.items()) !=0:                            
+        if len(cur_node.children.items()) !=0:     
             for key, value in cur_node.children.items():
-                    self.trie_explore(cur_node = value, previous_letter  = previous_letter + cur_node.letter, prefix = prefix, d_list = d_list)
+                self.find_prefix(cur_node = value, previous_letter = previous_letter + cur_node.letter, d_list = d_list, prefix = prefix)
         
-        else:
+        return d_list
+    
 
-            for k in range(0, len(d_list)):  # Once the
-                for l in range(0, len(d_list)-k-1):  
-                    if (d_list[l].frequency < d_list[l + 1].frequency):  
-                        temp = d_list[l]  
-                        d_list[l] = d_list[l + 1]  
-                        d_list[l + 1] = temp  
+    def autocomplete(self, word: str) -> [WordFrequency]:
+
+        cur_node = self.root
+        for letter in word:
+            if letter not in cur_node.children:
+                return []
             
-
+            cur_node = cur_node.children[letter] 
         
+        d_list = self.find_prefix(cur_node = cur_node, previous_letter = '', d_list = [], prefix = word)
+
+        for k in range(0, len(d_list)):  # Once the
+            for l in range(0, len(d_list)-k-1):  
+                if (d_list[l].frequency < d_list[l + 1].frequency):  
+                    temp = d_list[l]  
+                    d_list[l] = d_list[l + 1]  
+                    d_list[l + 1] = temp 
+    
+    
+
         return d_list[0:3]
 
 
 
-    def autocomplete(self, word: str) -> [WordFrequency]:
-        """
-        return a list of 3 most-frequent words in the dictionary that have 'word' as a prefix
-        @param word: word to be autocompleted
-        @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'word'
-        """
-    
-        cur_node = self.root
-
-        try:
-
-            d_list = self.trie_explore(cur_node.children[word[0]], prefix= word, d_list=[])
-            
-            return d_list
-        
-        except:
-            
-            return []

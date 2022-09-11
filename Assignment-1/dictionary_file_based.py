@@ -105,6 +105,7 @@ if __name__ == '__main__':
             # check
             elif command == 'AC':
                 word = command_values[1]
+
                 list_words = agent.autocomplete(word)
                 line = "Autocomplete for '" + word + "': [ "
                 for item in list_words:
